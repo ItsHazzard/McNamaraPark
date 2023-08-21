@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>McNamara Park</title>
+    <link rel="icon" href="/Photos/McNamaraPark NO-BG.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet">
+    <style>
+        /* Apply the gradient background to the body */
+        body {
+            font-family: 'Imperial Script', cursive;
+            background: linear-gradient(25deg, darkslategrey, black);
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem;
+            font-size: xx-large;
+        }
+        /* Center content vertically and horizontally */
+        #video-header {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 94.3vh;
+            margin-top: 54px;
+        }
+
+        /* Adjust z-index for video to be below text */
+        #video-header video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Sleek styling for header text */
+        #video-header h1 {
+            font-size: 8rem; /* Adjust the font size as needed */
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 0.5rem;
+            text-align: center;
+            padding: 0 1rem;
+        }
+        
+        #video-header p {
+            font-size: 3rem; /* Adjust the font size as needed */
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .top-menu {
+            font-family: 'Raleway', Arial, sans-serif;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .top-menu a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .btn {
+            transform: scale(1.1);
+            transition: all 3s ease;
+        }
+        .btn:hover {
+            color: #333;
+            transform: scale(1.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-menu">
+        <a class=btn href="/index.html">Home</a>
+        <a class=btn href="/Services.html">Services</a>
+        <a class=btn href="/contact.html">Contact Us</a>
+    </div>
+
+    <div id="video-header">
+        <video autoplay muted loop>
+            <source src="Photos/header.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h1>McNamara Park</h1>
+        <p>Boutique Equine & Bovine Services. Specializing in Thoroughbreds And Lowlines</p>
+    </div> 
+    <script>
+        // JavaScript for smooth scrolling
+        document.addEventListener("DOMContentLoaded", function () {
+            const topNavLinks = document.querySelectorAll(".top-menu a");
+
+            topNavLinks.forEach(link => {
+                link.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    const targetSection = document.querySelector(link.getAttribute("href"));
+                    window.scrollTo({
+                        top: targetSection.offsetTop,
+                        behavior: "smooth"
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
