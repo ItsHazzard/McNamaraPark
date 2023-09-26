@@ -92,11 +92,11 @@
             <button id="add-button">Add</button>
         </div>
         <ul id="item-list">
-            <a>Nutela</a>
-            <a>Bread</a>
+
         </ul>
     </main>
-    <script>const itemInput = document.getElementById("item-input");
+    <script>
+const itemInput = document.getElementById("item-input");
 const addButton = document.getElementById("add-button");
 const itemList = document.getElementById("item-list");
 
@@ -106,6 +106,10 @@ if (localStorage.getItem("shoppingList")) {
     savedItems.forEach(item => {
         addItemToList(item.text, item.checked);
     });
+} else {
+    // If localStorage is empty, add Nutella and Bread by default
+    addItemToList("Nutella", false);
+    addItemToList("Bread", false);
 }
 
 addButton.addEventListener("click", addItem);
@@ -155,6 +159,7 @@ function saveItemsToLocalStorage() {
 
     localStorage.setItem("shoppingList", JSON.stringify(items));
 }
+
 </script>
 </body>
 </html>
