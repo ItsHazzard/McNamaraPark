@@ -1,14 +1,3 @@
-const cheerio = require('cheerio');
-const fetch = require('node-fetch');
-
-// Dark/Light theme toggle
-const themeToggle = document.getElementById('theme-toggle');
-themeToggle.addEventListener('change', toggleTheme);
-
-function toggleTheme() {
-  document.body.classList.toggle('dark-theme');
-}
-
 function searchHorse() {
   const horseName = document.getElementById('horse-name').value;
 
@@ -27,16 +16,14 @@ function searchHorse() {
 }
 
 function scrapeHorseData(html) {
-  const $ = cheerio.load(html);
-  
   // Implement scraping logic to extract horse data from the HTML
-  const horseName = $('selector-for-horse-name').text();
-  const winnings = $('selector-for-winnings').text();
-  // Add more selectors for other data
+  // Replace with your scraping logic
+  const horseName = 'Horse Name'; // Example data
+  const winnings = 'Winnings';     // Example data
 
   return {
     name: horseName,
-    winnings: winnings,
+    winnings: winnings
     // Add other data properties here
   };
 }
