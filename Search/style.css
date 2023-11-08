@@ -1,5 +1,5 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
   transition: background-color 0.5s, color 0.5s;
 }
 
@@ -12,7 +12,6 @@ header {
   background-color: #333;
   color: #fff;
   padding: 10px;
-  text-align: center;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,22 +19,25 @@ header {
 
 header h1 {
   margin: 0;
+  font-family: 'Helvetica Neue', sans-serif;
 }
 
-.switch {
-  display: inline-block;
+.theme-switch {
   position: relative;
+  display: inline-block;
   width: 60px;
   height: 34px;
+  top: 10px;
+  right: 20px;
 }
 
-.switch input {
+.theme-switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-.slider {
+.theme-switch .slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -48,7 +50,7 @@ header h1 {
   border-radius: 34px;
 }
 
-.slider:before {
+.theme-switch .slider:before {
   position: absolute;
   content: "";
   height: 26px;
@@ -61,21 +63,21 @@ header h1 {
   border-radius: 50%;
 }
 
-input:checked + .slider {
+.theme-switch input:checked + .slider {
   background-color: #2196F3;
 }
 
-input:focus + .slider {
+.theme-switch input:focus + .slider {
   box-shadow: 0 0 1px #2196F3;
 }
 
-input:checked + .slider:before {
+.theme-switch input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
 
-.main {
+main {
   margin: 20px;
 }
 
@@ -85,17 +87,25 @@ input:checked + .slider:before {
 }
 
 #horse-name {
-  padding: 5px;
-  font-size: 16px;
+  padding: 10px;
+  font-size: 18px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+}
+
+#horse-name::placeholder {
+  color: #999;
 }
 
 button {
-  padding: 5px 10px;
-  font-size: 16px;
+  padding: 10px 20px;
+  font-size: 18px;
   background-color: #333;
   color: #fff;
   border: none;
+  border-radius: 10px;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 button:hover {
@@ -103,8 +113,9 @@ button:hover {
 }
 
 #results {
-  border: 1px solid #ccc;
-  padding: 10px;
+  border: 2px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .result-item {
