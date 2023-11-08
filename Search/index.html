@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Broodmare Search Engine</title>
+  <link rel="stylesheet" type="text/css" href="./styles.css">
+</head>
+<body>
+  <header>
+    <h1>Broodmare Search Engine</h1>
+    <label class="switch">
+      <input type="checkbox" id="theme-toggle">
+      <span class="slider round"></span>
+    </label>
+  </header>
+  <main>
+    <div class="search-container">
+      <input type="text" id="horse-name" placeholder="Enter Horse Name">
+      <button onclick="searchHorse()">Search</button>
+    </div>
+    <div id="results">
+      <!-- Search results will be displayed here -->
+    </div>
+  </main>
+  <script src="./script.js"></script>
+</body>
+</html>
