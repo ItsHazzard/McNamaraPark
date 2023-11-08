@@ -13,7 +13,7 @@ function searchHorse() {
   const horseName = document.getElementById('horse-name').value;
 
   // Replace this with the URL of the webpage you want to scrape
-  const url = `https://www.breednet.com.au/horses/${horseName}`;
+  const url = `https://www.breednet.com.au/horse/${horseName}`;
 
   fetch(url)
     .then((response) => response.text())
