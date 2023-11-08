@@ -149,21 +149,29 @@ button:hover {
 function searchHorse() {
   const horseName = document.getElementById('horse-name').value;
 
-  // Replace this with the URL of the webpage you want to scrape
-  const url = `https://www.breednet.com.au/horses/${horseName}`;
-
-  fetch(url)
-    .then((response) => response.text())
-    .then((html) => {
-      const horseData = scrapeHorseData(html);
-      displayHorseDetails(horseData);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+  if (horseName.trim() === '') {
+    clearResults();
+    return;
+  }
 
   // Real-time search results
   displaySearchResults(horseName);
+
+  // Only proceed with searching if Enter key is pressed
+  if (event.key === 'Enter') {
+    // Replace this with the URL of the webpage you want to scrape
+    const url = `https://www.breednet.com.au/horse/${horseName}`;
+
+    fetch(url)
+      .then((response) => response.text())
+      .then((html) => {
+        const horseData = scrapeHorseData(html);
+        displayHorseDetails(horseData);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
 }
 
 function scrapeHorseData(html) {
@@ -198,14 +206,19 @@ function displaySearchResults(query) {
   resultsContainer.innerHTML = `
     <p>Search Results for "${query}"</p>
     <ul>
-      <li>Horse 1</li>
-      <li>Horse 2</li>
-      <li>Horse 3</li>
+      <li>Result 1 for ${query}</li>
+      <li>Result 2 for ${query}</li>
+      <li>Result 3 for ${query}</li>
       <!-- Add more search results here -->
     </ul>
   `;
 }
 
+function clearResults() {
+  const resultsContainer = document.getElementById('results');
+  resultsContainer.innerHTML = '';
+}
+    
   </script>
 </body>
 </html>
