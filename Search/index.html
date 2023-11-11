@@ -159,66 +159,68 @@ function searchHorse() {
 
   // Only proceed with searching if Enter key is pressed
   if (event.key === 'Enter') {
-    // Replace this with the URL of the webpage you want to scrape
-    const url = `https://www.breednet.com.au/horse/${horseName}`;
-
-    fetch(url)
-      .then((response) => response.text())
-      .then((html) => {
-        const horseData = scrapeHorseData(html);
+    // Load YAML file and display horse details
+    fetch('https://www.mcnamarapark.com/Search/results.yml')
+      .then(response => response.text())
+      .then(yamlText => {
+        const results = jsyaml.load(yamlText);
+        const horseData = findHorse(results, horseName);
         displayHorseDetails(horseData);
       })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+      .catch(error => console.error('Error loading YAML:', error));
   }
 }
 
-function scrapeHorseData(html) {
-  // Implement scraping logic to extract horse data from the HTML
-  // Replace with your scraping logic
-  const horseName = 'Horse Name'; // Example data
-  const foaled = 'Foaled Date';    // Example data
-  const career = 'Career Data';   // Example data
-
-  return {
-    name: horseName,
-    foaled: foaled,
-    career: career
-    // Add other data properties here
-  };
+function findHorse(results, horseName) {
+  return results.find(horse => horse.name.toLowerCase().includes(horseName.toLowerCase()));
 }
 
 function displayHorseDetails(horseData) {
   const resultsContainer = document.getElementById('results');
-  resultsContainer.innerHTML = `
-    <h2>${horseData.name}</h2>
-    <p>Foaled: ${horseData.foaled}</p>
-    <p>Career: ${horseData.career}</p>
-    <!-- Add more horse information here -->
-  `;
+  if (horseData) {
+    resultsContainer.innerHTML = `
+      <h2>${horseData.name}</h2>
+      <p>Foaled: ${horseData.foaled}</p>
+      <p>Career: ${horseData.career}</p>
+      <h3>Foals:</h3>
+      <ul>
+        ${horseData.foals.map(foal => `
+          <li>
+            Name: ${foal.name}, 
+            Sale Price: ${foal.salePrice}, 
+            Pedigree: ${foal.pedigree || 'Not available'}
+          </li>
+        `).join('')}
+      </ul>
+    `;
+  } else {
+    resultsContainer.innerHTML = `<p>No results found for "${horseName}"</p>`;
+  }
 }
 
 function displaySearchResults(query) {
-  // Implement search results display based on the query
-  // For demonstration, this function simply shows a placeholder result
-  const resultsContainer = document.getElementById('results');
-  resultsContainer.innerHTML = `
-    <p>Search Results for "${query}"</p>
-    <ul>
-      <li>Result 1 for ${query}</li>
-      <li>Result 2 for ${query}</li>
-      <li>Result 3 for ${query}</li>
-      <!-- Add more search results here -->
-    </ul>
-  `;
+  // Implement real-time search results display based on the query
+  // Match the entered text with horse names
+  fetch('results.yml')
+    .then(response => response.text())
+    .then(yamlText => {
+      const results = jsyaml.load(yamlText);
+      const matchingHorses = results.filter(horse => horse.name.toLowerCase().includes(query.toLowerCase()));
+      const resultsContainer = document.getElementById('results');
+      resultsContainer.innerHTML = `
+        <p>Search Results for "${query}"</p>
+        <ul>
+          ${matchingHorses.map(horse => `<li>${horse.name}</li>`).join('')}
+        </ul>
+      `;
+    })
+    .catch(error => console.error('Error loading YAML:', error));
 }
 
 function clearResults() {
   const resultsContainer = document.getElementById('results');
   resultsContainer.innerHTML = '';
-}
-    
+} 
   </script>
 </body>
 </html>
