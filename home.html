@@ -30,7 +30,7 @@
             font-size: xx-large;
         }
         /* Center content vertically and horizontally */
-        #video-header {
+        #photo-header {
             position: relative;
             display: flex;
             flex-direction: column;
@@ -41,7 +41,7 @@
         }
 
         /* Adjust z-index for video to be below text */
-        #video-header video {
+        #photo-header photo {
             position: absolute;
             top: 0;
             left: 0;
@@ -52,7 +52,7 @@
         }
 
         /* Sleek styling for header text */
-        #video-header h1 {
+        #photo-header h1 {
             font-size: 8rem; /* Adjust the font size as needed */
             font-weight: bold;
             color: #fff;
@@ -62,7 +62,7 @@
             padding: 0 1rem;
         }
         
-        #video-header p {
+        #photo-header p {
             font-size: 3rem; /* Adjust the font size as needed */
             color: #fff;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
@@ -80,6 +80,7 @@
             display: flex;
             justify-content: center;
             padding: 1rem;
+            z-index: 1;
         }
         .top-menu a {
             color: #fff;
@@ -88,10 +89,12 @@
             font-size: 1.2rem;
             cursor: pointer;
             transition: opacity 0.3s;
+            z-index: 2;
         }
         .btn {
             transform: scale(1.1);
             transition: all 3s ease;
+            z-index: 3;
         }
         .btn:hover {
             color: #333;
@@ -101,16 +104,16 @@
 </head>
 <body>
     <div class="top-menu">
-        <a class=btn href="/index.html">Home</a>
-        <a class=btn href="/Services.html">Services</a>
-        <a class=btn href="/contact.html">Contact Us</a>
+        <a class=btn href="/index">Home</a>
+        <a class=btn href="/Services">Services</a>
+        <a class=btn href="/contact">Contact Us</a>
     </div>
 
-    <div id="video-header">
-        <video autoplay muted loop>
-            <source src="Photos/header.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+    <div id="photo-header">
+        <photo>
+            <source src="Photos/WutiaMountian.jpg" type="image/jpg">
+            Your browser does not support the photo tag.
+        </photo>
         <h1>McNamara Park</h1>
         <p>Boutique Equine & Bovine Services. Specializing in Thoroughbreds And Lowlines</p>
     </div> 
