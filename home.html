@@ -30,6 +30,21 @@
             z-index: 1000; /* Ensure the menu is above other elements */
         }
 
+        .top-menu a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            transform: scale(1.1);
+        }
+
+        .top-menu a:hover {
+            color: #333;
+            transform: scale(1.3);
+        }
+
         header {
             background-color: #333;
             color: #fff;
@@ -75,24 +90,14 @@
             max-width: 800px;
             margin: 0 auto;
         }
-
-        .btn {
-            transform: scale(1.1);
-            transition: all 3s ease;
-        }
-
-        .btn:hover {
-            color: #333;
-            transform: scale(1.3);
-        }
     </style>
 </head>
 
 <body>
     <div class="top-menu">
-        <a class=btn href="/index">Home</a>
-        <a class=btn href="/Services">Services</a>
-        <a class=btn href="/contact">Contact Us</a>
+        <a href="/index">Home</a>
+        <a href="/Services">Services</a>
+        <a href="/contact">Contact Us</a>
     </div>
 
     <div id="photo-header">
