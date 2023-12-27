@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .dashboard-container {
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+            margin-top: 10px;
+        }
+
+        #logout-link {
+            color: #e74c3c;
+            cursor: pointer;
+        }
+    </style>
+    <title>Dashboard</title>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Welcome to the Dashboard</h2>
+        <p>This is your secure area.</p>
+        <p id="logout-link">Logout</p>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.5/firebase-auth.js"></script>
+    <script>
+        // Replace with your Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAed8fJ8bztPVvvkO0SI0nDXk5K2S5h-2U",
+            authDomain: "mcnamarapark.com",
+            projectId: "mcnamarapark-15b32",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "1062056048117",
+            appId: "1062056048117"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        const logoutLink = document.getElementById('logout-link');
+
+        logoutLink.addEventListener('click', function () {
+            firebase.auth().signOut().then(() => {
+                // Redirect to the login page after logout
+                redirectUser('login.html');
+            }).catch((error) => {
+                console.error('Logout error', error);
+            });
+        });
+
+        function redirectUser(destination) {
+            window.location.href = destination;
+        }
+    </script>
+</body>
+</html>
