@@ -14,19 +14,6 @@ def authenticate(username, password):
             return user_id
     return None
 
-# Login route
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        user_id = authenticate(username, password)
-        if user_id is not None:
-            return redirect(url_for('dashboard', user_id=user_id))
-        else:
-            error_message = 'Invalid username or password'
-            return render_template('login.html', error_message=error_message)
-    return render_template('login.html')
 
 # Dashboard route
 @app.route('/dashboard/<int:user_id>')
