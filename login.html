@@ -1,97 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #3498db;
+    }
 
-        .login-container,
-        .dashboard-container {
-            background-color: #ffffff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
+    .login-container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
 
-        h2 {
-            color: #333;
-        }
+    h2 {
+      color: #2c3e50;
+    }
 
-        p {
-            color: #555;
-            margin-top: 10px;
-        }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #2c3e50;
+    }
 
-        #logout-link {
-            color: #e74c3c;
-            cursor: pointer;
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #2ecc71;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #27ae60;
+    }
+
+    #error-message {
+      color: #e74c3c;
+      margin-top: 10px;
+    }
+  </style>
+  <script>
+    function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      const yamlData = `
+        # (Your YAML data here)
+      `;
+
+      const parsedData = jsyaml.load(yamlData);
+
+      if (parsedData.hasOwnProperty(username)) {
+        if (parsedData[username].password === password) {
+          const userId = parsedData[username].id;
+          window.location.href = `dashboard-${userId}.html`;
+        } else {
+          document.getElementById('error-message').innerText = 'Incorrect password';
         }
-    </style>
-    <title>Login Page</title>
+      } else {
+        document.getElementById('error-message').innerText = 'User not found';
+      }
+    }
+  </script>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <form id="login-form">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
 
-            <button type="submit">Login</button>
-        </form>
-        <p id="error-message"></p>
-    </div>
-
-    <script src="https://www.gstatic.com/firebasejs/9.6.5/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.5/firebase-auth.js"></script>
-    <script>
-        // Replace with your Firebase config
-        const firebaseConfig = {
-            apiKey: "AIzaSyAed8fJ8bztPVvvkO0SI0nDXk5K2S5h-2U",
-            authDomain: "mcnamarapark.com",
-            projectId: "mcnamarapark-15b32",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "1062056048117",
-            appId: "1062056048117"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        const loginForm = document.getElementById('login-form');
-        const errorMessage = document.getElementById('error-message');
-
-        loginForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            firebase.auth().signInWithEmailAndPassword(email, password)
-                .then(() => {
-                    // Redirect to the dashboard after successful login
-                    redirectUser('dashboard.html');
-                })
-                .catch((error) => {
-                    errorMessage.textContent = error.message;
-                });
-        });
-
-        function redirectUser(destination) {
-            window.location.href = destination;
-        }
-    </script>
+      <button type="button" onclick="login()">Login</button>
+    </form>
+    <p id="error-message"></p>
+  </div>
 </body>
 </html>
