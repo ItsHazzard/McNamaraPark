@@ -357,37 +357,39 @@
                 sireName: 'Yes Yes Yes',
                 damName: 'Wutai Mountain',
                 type: 'Unraced',
+                gender: 'Filly',
                 photo: 'photos/millie.png',
-                paddock: 'paddocks/1.png',
+                paddock: 'paddocks/4.png',
                 sirePhoto: 'photos/speed_king.png',
                 damPhoto: 'photos/queen_grace.png',
-                scopeImage: 'medical/scope_millie.png',
-                xrayImage: 'medical/xray_millie.png',
-                brokenIn: false,
+                scopeImage: 'medical/scope_champion.png',
+                xrayImage: 'medical/xray_champion.png',
+                brokenIn: true,
                 bornOnStud: true,
                 damMcNamara: true,
-                birthDate: '3 Years',
-                microchipNumber: 'unknown',
-                idCard: 'idcards/millie.png'
+                birthDate: '2018-04-23',
+                microchipNumber: 'MC123456789',
+                idCard: 'idcards/champion_id.pdf'
             },
             {
-                stableName: 'Chatter',
-                raceName: 'Unnamed',
-                sireName: 'Pariah',
-                damName: 'Vortex',
-                type: 'Unraced',
-                photo: 'photos/chatter.png',
-                paddock: 'paddocks/back.png',
-                sirePhoto: 'photos/pariah.png',
-                damPhoto: 'photos/vortex.png',
+                stableName: 'Midnight',
+                raceName: 'Dark Moon',
+                sireName: 'Eclipse',
+                damName: 'Starshine',
+                type: 'Broodmare',
+                gender: 'Mare',
+                photo: 'photos/midnight.png',
+                paddock: 'paddocks/2.png',
+                sirePhoto: 'photos/eclipse.png',
+                damPhoto: 'photos/starshine.png',
                 scopeImage: 'medical/scope_midnight.png',
                 xrayImage: 'medical/xray_midnight.png',
                 brokenIn: false,
-                bornOnStud: true,
-                damMcNamara: true,
-                birthDate: '2 years',
-                microchipNumber: '',
-                idCard: 'idcards/chatter.pdf'
+                bornOnStud: false,
+                damMcNamara: false,
+                birthDate: '2017-06-15',
+                microchipNumber: 'MC987654321',
+                idCard: 'idcards/midnight_id.pdf'
             },
             {
                 stableName: 'Star',
@@ -395,6 +397,7 @@
                 sireName: 'Galaxy',
                 damName: 'Comet',
                 type: 'Yearling',
+                gender: 'Filly',
                 photo: 'photos/star.png',
                 paddock: 'paddocks/3.png',
                 sirePhoto: 'photos/galaxy.png',
@@ -414,6 +417,7 @@
                 sireName: 'Meteor',
                 damName: 'Aurora',
                 type: 'Weanling',
+                gender: 'Colt',
                 photo: 'photos/comet.png',
                 paddock: 'paddocks/4.png',
                 sirePhoto: 'photos/meteor.png',
@@ -433,6 +437,7 @@
                 sireName: 'Wild Wind',
                 damName: 'Lightning',
                 type: 'Pony',
+                gender: 'Gelding',
                 photo: 'photos/sassy.png',
                 paddock: 'paddocks/5.png',
                 sirePhoto: 'photos/wild_wind.png',
@@ -475,6 +480,17 @@
         const loginButton = document.getElementById('login-button');
         const loginError = document.getElementById('login-error');
 
+        function calculateAge(birthDate) {
+            const birth = new Date(birthDate);
+            const today = new Date();
+            let age = today.getFullYear() - birth.getFullYear();
+            const m = today.getMonth() - birth.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
         function displayHorses(horsesToDisplay) {
             horseList.innerHTML = '';
             if (horsesToDisplay.length === 0) {
@@ -482,11 +498,13 @@
                 return;
             }
             horsesToDisplay.forEach(horse => {
+                const age = calculateAge(horse.birthDate);
+                const ageDisplay = age > 0 ? `${age} Year${age > 1 ? 's' : ''}` : 'Less than 1 Year';
                 const horseCard = document.createElement('div');
                 horseCard.classList.add('horse-card');
                 horseCard.innerHTML = `
                     <div class="horse-title">${horse.stableName} | ${horse.raceName}</div>
-                    <div class="horse-type">${horse.type}</div>
+                    <div class="horse-type">${horse.type} ∘ ${horse.gender} ∘ ${ageDisplay}</div>
                     <div class="additional-info">
                         ${horse.bornOnStud ? '<span>Born on Stud</span><br>' : ''}
                         ${horse.brokenIn ? '<span>Broken In</span>' : '<span>Not Broken In</span>'}
