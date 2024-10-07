@@ -1,226 +1,586 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Broodmare Search Engine</title>
-  <style>
-    body {
-  font-family: 'Arial', sans-serif;
-  transition: background-color 0.5s, color 0.5s;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>McNamara Park Horse Search</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-.dark-theme {
-  background-color: #333;
-  color: #fff;
-}
+        body {
+            background-color: #121212;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
 
-header {
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+        /* Login Modal */
+        #login-modal {
+            display: flex;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(18, 18, 18, 0.95);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
 
-header h1 {
-  margin: 0;
-  font-family: 'Helvetica Neue', sans-serif;
-}
+        #login-modal input {
+            padding: 10px 15px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 250px;
+        }
 
-.theme-switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-  top: 10px;
-  right: 20px;
-}
+        #login-modal button {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4fc3f7;
+            color: #121212;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-.theme-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+        #login-modal button:hover {
+            background-color: #81d4fa;
+        }
 
-.theme-switch .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-  border-radius: 34px;
-}
+        /* Search Bar */
+        #search-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
 
-.theme-switch .slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-  border-radius: 50%;
-}
+        #search-bar {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 18px;
+            border-radius: 30px;
+            border: none;
+            outline: none;
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s;
+        }
 
-.theme-switch input:checked + .slider {
-  background-color: #2196F3;
-}
+        #search-bar::placeholder {
+            color: #aaaaaa;
+        }
 
-.theme-switch input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
+        #search-bar:focus {
+            background-color: #2a2a2a;
+        }
 
-.theme-switch input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
+        /* Horse List */
+        #horse-list {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-main {
-  margin: 20px;
-}
+        .horse-card {
+            background-color: #1e1e1e;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
 
-.search-container {
-  text-align: center;
-  margin-bottom: 20px;
-}
+        .horse-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+        }
 
-#horse-name {
-  padding: 10px;
-  font-size: 18px;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-}
+        .horse-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #4fc3f7;
+        }
 
-#horse-name::placeholder {
-  color: #999;
-}
+        .horse-type {
+            font-size: 16px;
+            color: #b0bec5;
+            margin-top: 8px;
+        }
 
-button {
-  padding: 10px 20px;
-  font-size: 18px;
-  background-color: #333;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
+        .additional-info {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #aaa;
+        }
 
-button:hover {
-  background-color: #555;
-}
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 40px 20px;
+            animation: fadeIn 0.3s;
+        }
 
-#results {
-  border: 2px solid #ccc;
-  padding: 20px;
-  border-radius: 10px;
-}
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
-.result-item {
-  margin-bottom: 10px;
-}
-  </style>
+        .modal-content {
+            background-color: #1e1e1e;
+            margin: auto;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 900px;
+            position: relative;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #e0e0e0;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #ff5252;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: #4fc3f7;
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .modal-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .modal-section h3 {
+            color: #81d4fa;
+            margin-bottom: 10px;
+        }
+
+        .modal-section img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .sire-dam-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .sire-dam-card {
+            background-color: #2a2a2a;
+            padding: 15px;
+            border-radius: 10px;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .sire-dam-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .sire-dam-card a {
+            color: #81d4fa;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .sire-dam-card a.mc-dam {
+            color: #ffab40;
+            font-weight: bold;
+        }
+
+        .paddock-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .paddock-images img {
+            width: calc(33.333% - 10px);
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .modal-body {
+                flex-direction: column;
+            }
+
+            .sire-dam-container {
+                flex-direction: column;
+            }
+
+            .paddock-images img {
+                width: 100%;
+            }
+
+            #login-modal input {
+                width: 80%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Broodmare Search Engine</h1>
-    <label class="theme-switch">
-      <input type="checkbox" id="theme-toggle">
-      <span class="slider round"></span>
-    </label>
-  </header>
-  <main>
-    <div class="search-container">
-      <input type="text" id="horse-name" placeholder="Search for a Horse" onkeyup="searchHorse()">
-      <button onclick="searchHorse()">Search</button>
+    <!-- Login Modal -->
+    <div id="login-modal">
+        <h2 style="color:#4fc3f7; margin-bottom:20px;">Enter Password to Access</h2>
+        <input type="password" id="password-input" placeholder="Password">
+        <button id="login-button">Enter</button>
+        <p id="login-error" style="color:#ff5252; margin-top:10px; display:none;">Incorrect Password. Try Again.</p>
     </div>
-    <div id="results">
-      <!-- Search results will be displayed here -->
+
+    <!-- Search Bar -->
+    <div id="search-container">
+        <input type="text" id="search-bar" placeholder="Search horses by stable name, race name, sire, or dam...">
     </div>
-  </main>
-  <script>
-function searchHorse() {
-  const horseName = document.getElementById('horse-name').value;
 
-  if (horseName.trim() === '') {
-    clearResults();
-    return;
-  }
+    <!-- Horse List -->
+    <div id="horse-list">
+        <!-- Horse cards will be dynamically added here -->
+    </div>
 
-  // Real-time search results
-  displaySearchResults(horseName);
+    <!-- Modal Popup -->
+    <div id="horse-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="modal-header">
+                <h2 id="modal-title">Horse Details</h2>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3>Horse Photo</h3>
+                    <img id="horse-photo" src="" alt="Horse Photo">
+                </div>
 
-  // Only proceed with searching if Enter key is pressed
-  if (event.key === 'Enter') {
-    // Load YAML file and display horse details
-    fetch('https://www.mcnamarapark.com/Search/results.yml')
-      .then(response => response.text())
-      .then(yamlText => {
-        const results = jsyaml.load(yamlText);
-        const horseData = findHorse(results, horseName);
-        displayHorseDetails(horseData);
-      })
-      .catch(error => console.error('Error loading YAML:', error));
-  }
-}
+                <div class="modal-section">
+                    <h3>Paddock</h3>
+                    <img id="paddock-image" src="" alt="Paddock Image">
+                </div>
 
-function findHorse(results, horseName) {
-  return results.find(horse => horse.name.toLowerCase().includes(horseName.toLowerCase()));
-}
+                <div class="modal-section">
+                    <h3>Sire & Dam</h3>
+                    <div class="sire-dam-container">
+                        <div class="sire-dam-card">
+                            <img id="sire-photo" src="" alt="Sire Photo">
+                            <p id="sire-name">Sire Name</p>
+                        </div>
+                        <div class="sire-dam-card">
+                            <img id="dam-photo" src="" alt="Dam Photo">
+                            <p id="dam-name"><a href="#" id="dam-link">Dam Name</a></p>
+                        </div>
+                    </div>
+                </div>
 
-function displayHorseDetails(horseData) {
-  const resultsContainer = document.getElementById('results');
-  if (horseData) {
-    resultsContainer.innerHTML = `
-      <h2>${horseData.name}</h2>
-      <p>Foaled: ${horseData.foaled}</p>
-      <p>Career: ${horseData.career}</p>
-      <h3>Foals:</h3>
-      <ul>
-        ${horseData.foals.map(foal => `
-          <li>
-            Name: ${foal.name}, 
-            Sale Price: ${foal.salePrice}, 
-            Pedigree: ${foal.pedigree || 'Not available'}
-          </li>
-        `).join('')}
-      </ul>
-    `;
-  } else {
-    resultsContainer.innerHTML = `<p>No results found for "${horseName}"</p>`;
-  }
-}
+                <div class="modal-section">
+                    <h3>Medical Images</h3>
+                    <div class="paddock-images">
+                        <img id="scope-image" src="" alt="Scope Image">
+                        <img id="xray-image" src="" alt="X-Ray Image">
+                    </div>
+                </div>
 
-function displaySearchResults(query) {
-  // Implement real-time search results display based on the query
-  // Match the entered text with horse names
-  fetch('results.yml')
-    .then(response => response.text())
-    .then(yamlText => {
-      const results = jsyaml.load(yamlText);
-      const matchingHorses = results.filter(horse => horse.name.toLowerCase().includes(query.toLowerCase()));
-      const resultsContainer = document.getElementById('results');
-      resultsContainer.innerHTML = `
-        <p>Search Results for "${query}"</p>
-        <ul>
-          ${matchingHorses.map(horse => `<li>${horse.name}</li>`).join('')}
-        </ul>
-      `;
-    })
-    .catch(error => console.error('Error loading YAML:', error));
-}
+                <div class="modal-section">
+                    <h3>Additional Information</h3>
+                    <p id="born-on-stud"></p>
+                    <p id="broken-in"></p>
+                    <p id="birth-date"></p>
+                    <p id="microchip-number"></p>
+                    <p id="id-card"><a href="#" target="_blank">View ID Card</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-function clearResults() {
-  const resultsContainer = document.getElementById('results');
-  resultsContainer.innerHTML = '';
-} 
-  </script>
+    <script>
+        const horses = [
+            {
+                stableName: 'Champion',
+                raceName: 'Victory Lane',
+                sireName: 'Speed King',
+                damName: 'Queen Grace',
+                type: 'Race Horse',
+                photo: 'photos/champion.png',
+                paddock: 'paddocks/1.png',
+                sirePhoto: 'photos/speed_king.png',
+                damPhoto: 'photos/queen_grace.png',
+                scopeImage: 'medical/scope_champion.png',
+                xrayImage: 'medical/xray_champion.png',
+                brokenIn: true,
+                bornOnStud: true,
+                damMcNamara: true,
+                birthDate: '2018-04-23',
+                microchipNumber: 'MC123456789',
+                idCard: 'idcards/champion_id.pdf'
+            },
+            {
+                stableName: 'Midnight',
+                raceName: 'Dark Moon',
+                sireName: 'Eclipse',
+                damName: 'Starshine',
+                type: 'Broodmare',
+                photo: 'photos/midnight.png',
+                paddock: 'paddocks/2.png',
+                sirePhoto: 'photos/eclipse.png',
+                damPhoto: 'photos/starshine.png',
+                scopeImage: 'medical/scope_midnight.png',
+                xrayImage: 'medical/xray_midnight.png',
+                brokenIn: false,
+                bornOnStud: false,
+                damMcNamara: false,
+                birthDate: '2017-06-15',
+                microchipNumber: 'MC987654321',
+                idCard: 'idcards/midnight_id.pdf'
+            },
+            {
+                stableName: 'Star',
+                raceName: 'Starlight',
+                sireName: 'Galaxy',
+                damName: 'Comet',
+                type: 'Yearling',
+                photo: 'photos/star.png',
+                paddock: 'paddocks/3.png',
+                sirePhoto: 'photos/galaxy.png',
+                damPhoto: 'photos/comet.png',
+                scopeImage: 'medical/scope_star.png',
+                xrayImage: 'medical/xray_star.png',
+                brokenIn: true,
+                bornOnStud: false,
+                damMcNamara: true,
+                birthDate: '2019-09-10',
+                microchipNumber: 'MC112233445',
+                idCard: 'idcards/star_id.pdf'
+            },
+            {
+                stableName: 'Comet',
+                raceName: 'Trailblazer',
+                sireName: 'Meteor',
+                damName: 'Aurora',
+                type: 'Weanling',
+                photo: 'photos/comet.png',
+                paddock: 'paddocks/4.png',
+                sirePhoto: 'photos/meteor.png',
+                damPhoto: 'photos/aurora.png',
+                scopeImage: 'medical/scope_comet.png',
+                xrayImage: 'medical/xray_comet.png',
+                brokenIn: false,
+                bornOnStud: true,
+                damMcNamara: false,
+                birthDate: '2020-01-05',
+                microchipNumber: 'MC556677889',
+                idCard: 'idcards/comet_id.pdf'
+            },
+            {
+                stableName: 'Sassy',
+                raceName: 'Thunderbolt',
+                sireName: 'Wild Wind',
+                damName: 'Lightning',
+                type: 'Pony',
+                photo: 'photos/sassy.png',
+                paddock: 'paddocks/5.png',
+                sirePhoto: 'photos/wild_wind.png',
+                damPhoto: 'photos/lightning.png',
+                scopeImage: 'medical/scope_sassy.png',
+                xrayImage: 'medical/xray_sassy.png',
+                brokenIn: true,
+                bornOnStud: false,
+                damMcNamara: false,
+                birthDate: '2021-03-22',
+                microchipNumber: 'MC998877665',
+                idCard: 'idcards/sassy_id.pdf'
+            },
+            // Add more horse objects as needed
+        ];
+
+        const horseList = document.getElementById('horse-list');
+        const searchBar = document.getElementById('search-bar');
+        const modal = document.getElementById('horse-modal');
+        const closeBtn = document.querySelector('.close-btn');
+
+        const modalTitle = document.getElementById('modal-title');
+        const horsePhoto = document.getElementById('horse-photo');
+        const paddockImage = document.getElementById('paddock-image');
+        const sirePhoto = document.getElementById('sire-photo');
+        const sireName = document.getElementById('sire-name');
+        const damPhoto = document.getElementById('dam-photo');
+        const damName = document.getElementById('dam-name');
+        const damLink = document.getElementById('dam-link');
+        const scopeImage = document.getElementById('scope-image');
+        const xrayImage = document.getElementById('xray-image');
+        const bornOnStud = document.getElementById('born-on-stud');
+        const brokenIn = document.getElementById('broken-in');
+        const birthDate = document.getElementById('birth-date');
+        const microchipNumber = document.getElementById('microchip-number');
+        const idCard = document.getElementById('id-card');
+
+        const loginModal = document.getElementById('login-modal');
+        const passwordInput = document.getElementById('password-input');
+        const loginButton = document.getElementById('login-button');
+        const loginError = document.getElementById('login-error');
+
+        function displayHorses(horsesToDisplay) {
+            horseList.innerHTML = '';
+            if (horsesToDisplay.length === 0) {
+                horseList.innerHTML = '<p style="text-align:center; color:#aaa;">No horses found.</p>';
+                return;
+            }
+            horsesToDisplay.forEach(horse => {
+                const horseCard = document.createElement('div');
+                horseCard.classList.add('horse-card');
+                horseCard.innerHTML = `
+                    <div class="horse-title">${horse.stableName} | ${horse.raceName}</div>
+                    <div class="horse-type">${horse.type}</div>
+                    <div class="additional-info">
+                        ${horse.bornOnStud ? '<span>Born on Stud</span><br>' : ''}
+                        ${horse.brokenIn ? '<span>Broken In</span>' : '<span>Not Broken In</span>'}
+                    </div>
+                `;
+                horseCard.onclick = () => openModal(horse);
+                horseList.appendChild(horseCard);
+            });
+        }
+
+        function openModal(horse) {
+            modalTitle.textContent = `${horse.stableName} | ${horse.raceName}`;
+            horsePhoto.src = horse.photo;
+            horsePhoto.alt = `${horse.stableName} Photo`;
+            paddockImage.src = horse.paddock;
+            paddockImage.alt = `${horse.stableName} Paddock`;
+            sirePhoto.src = horse.sirePhoto;
+            sirePhoto.alt = `${horse.sireName} Photo`;
+            sireName.textContent = horse.sireName;
+            damPhoto.src = horse.damPhoto;
+            damPhoto.alt = `${horse.damName} Photo`;
+            damName.innerHTML = `<a href="#" id="dam-link">${horse.damName}</a>`;
+            scopeImage.src = horse.scopeImage;
+            scopeImage.alt = `${horse.stableName} Scope Image`;
+            xrayImage.src = horse.xrayImage;
+            xrayImage.alt = `${horse.stableName} X-Ray Image`;
+
+            bornOnStud.textContent = horse.bornOnStud ? 'Born on Stud: Yes' : 'Born on Stud: No';
+            brokenIn.textContent = horse.brokenIn ? 'Broken In: Yes' : 'Broken In: No';
+            birthDate.textContent = `Birth Date: ${horse.birthDate}`;
+            microchipNumber.textContent = `Microchip Number: ${horse.microchipNumber}`;
+            idCard.innerHTML = `<a href="${horse.idCard}" target="_blank">View ID Card</a>`;
+
+            const damLinkElement = document.getElementById('dam-link');
+            if (horse.damMcNamara) {
+                damLinkElement.classList.add('mc-dam');
+                damLinkElement.href = '#';
+                damLinkElement.onclick = (e) => {
+                    e.preventDefault();
+                    const dam = horses.find(h => h.stableName === horse.damName || h.raceName === horse.damName);
+                    if (dam) {
+                        openModal(dam);
+                    }
+                };
+            } else {
+                damLinkElement.classList.remove('mc-dam');
+                damLinkElement.href = '#';
+                damLinkElement.onclick = null;
+            }
+
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        closeBtn.onclick = closeModal;
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+
+        function authenticate() {
+            const password = passwordInput.value;
+            if (password === 'Shibuki_21') {
+                loginModal.style.display = 'none';
+            } else {
+                loginError.style.display = 'block';
+            }
+        }
+
+        loginButton.onclick = authenticate;
+
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                authenticate();
+            }
+        });
+
+        displayHorses(horses);
+
+        searchBar.addEventListener('input', () => {
+            const searchTerm = searchBar.value.toLowerCase();
+            const filteredHorses = horses.filter(horse =>
+                horse.stableName.toLowerCase().includes(searchTerm) ||
+                horse.raceName.toLowerCase().includes(searchTerm) ||
+                horse.sireName.toLowerCase().includes(searchTerm) ||
+                horse.damName.toLowerCase().includes(searchTerm)
+            );
+            displayHorses(filteredHorses);
+        });
+    </script>
 </body>
 </html>
