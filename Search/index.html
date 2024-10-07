@@ -551,7 +551,7 @@
             },
          {
                 stableName: 'Grubs',
-                raceName: 'Cariadus Grubalugs',
+                raceName: 'Cariadus Grubbalugs',
                 type: 'Pony',
                 gender: 'Gelding',
                 photo: 'photos/ponies/grubs.png',
@@ -566,7 +566,7 @@
             },
          {
                 stableName: 'Charlie',
-                raceName: 'Cariadus Charlie Bear',
+                raceName: 'Cariadus Cheeky Charlie',
                 sireName: 'Sasha',
                 damName: 'Cariadus Material Girl',
                 type: 'Pony',
@@ -625,49 +625,44 @@
         const xrayImage = document.getElementById('xray-image');
         const bornOnStud = document.getElementById('born-on-stud');
         const brokenIn = document.getElementById('broken-in');
-        const yob = document.getElementById('birth-date');
+        const yob = document.getElementById('yob');
         const microchipNumber = document.getElementById('microchip-number');
         const idCard = document.getElementById('id-card');
+        const forSale = document.getElementById('for-sale');
 
         const loginModal = document.getElementById('login-modal');
         const passwordInput = document.getElementById('password-input');
         const loginButton = document.getElementById('login-button');
         const loginError = document.getElementById('login-error');
 
-        function calculateAge(yob) {
-            const birth = new Date(birthDate);
-            const today = new Date();
-            let age = today.getFullYear() - birth.getFullYear();
-            const m = today.getMonth() - birth.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
-                age--;
-            }
-            return age;
-        }
+function calculateAge(yob) {
+    const currentYear = new Date().getFullYear();
+    return currentYear - yob;
+}
 
-        function displayHorses(horsesToDisplay) {
-            horseList.innerHTML = '';
-            if (horsesToDisplay.length === 0) {
-                horseList.innerHTML = '<p style="text-align:center; color:#aaa;">No horses found.</p>';
-                return;
-            }
-            horsesToDisplay.forEach(horse => {
-                const age = calculateAge(horse.birthDate);
-                const ageDisplay = age > 0 ? `${age} Year${age > 1 ? 's' : ''}` : 'Less than 1 Year';
-                const horseCard = document.createElement('div');
-                horseCard.classList.add('horse-card');
-                horseCard.innerHTML = `
-                    <div class="horse-title">${horse.stableName} | ${horse.raceName}</div>
-                    <div class="horse-type">${horse.type} ∘ ${horse.gender} ∘ ${ageDisplay}</div>
-                    <div class="additional-info">
-                        ${horse.bornOnStud ? '<span>Born on Stud</span><br>' : ''}
-                        ${horse.brokenIn ? '<span>Broken In</span>' : '<span>Not Broken In</span>'}
-                    </div>
-                `;
-                horseCard.onclick = () => openModal(horse);
-                horseList.appendChild(horseCard);
-            });
-        }
+function displayHorses(horsesToDisplay) {
+    horseList.innerHTML = '';
+    if (horsesToDisplay.length === 0) {
+        horseList.innerHTML = '<p style="text-align:center; color:#aaa;">No horses found.</p>';
+        return;
+    }
+    horsesToDisplay.forEach(horse => {
+        const age = calculateAge(horse.yob);
+        const ageDisplay = `${age} Year${age > 1 ? 's' : ''}`;
+        const horseCard = document.createElement('div');
+        horseCard.classList.add('horse-card');
+        horseCard.innerHTML = `
+            <div class="horse-title">${horse.stableName} | ${horse.raceName}</div>
+            <div class="horse-type">${horse.type} ∘ ${horse.gender} ∘ ${ageDisplay}</div>
+            <div class="additional-info">
+                ${horse.bornOnStud ? '<span>Born on Stud</span><br>' : ''}
+                ${horse.brokenIn ? '<span>Broken In</span>' : '<span>Not Broken In</span>'}
+            </div>
+        `;
+        horseCard.onclick = () => openModal(horse);
+        horseList.appendChild(horseCard);
+    });
+}
 
         function openModal(horse) {
             modalTitle.textContent = `${horse.stableName} | ${horse.raceName}`;
@@ -688,10 +683,10 @@
 
             bornOnStud.textContent = horse.bornOnStud ? 'Born on Stud: Yes' : 'Born on Stud: No';
             brokenIn.textContent = horse.brokenIn ? 'Broken In: Yes' : 'Broken In: No';
-            birthDate.textContent = `Birth Date: ${horse.birthDate}`;
+            yob.textContent = `YOB: ${horse.yob}`;
             microchipNumber.textContent = `Microchip Number: ${horse.microchipNumber}`;
             idCard.innerHTML = `<a href="${horse.idCard}" target="_blank">View ID Card</a>`;
-            forSale.textContent = forSale ? 'For Sale: Yes' : 'For Sale: No':
+            forSale.textContent = horse.forSale ? 'For Sale: Yes' : 'For Sale: No':
 
             const damLinkElement = document.getElementById('dam-link');
             if (horse.damMcNamara) {
