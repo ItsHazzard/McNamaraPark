@@ -504,7 +504,7 @@
                 sireName: 'Mach Three (CA)',
                 damName: 'Miss Glory (NZ)',
                 type: 'Harness Racing',
-                gender: 'Galding',
+                gender: 'Gelding',
                 photo: 'https://www.racingqueensland.com.au/kenticoimage.axd/a81aa941-98d5-4ef0-ba4c-94a1436c2d30.jpeg?v=638612177833119450&width=600&height=330&mode=crop',
                 paddock: 'paddocks/5.png',
                 sirePhoto: 'https://canadianhorseracinghalloffame.s3.amazonaws.com/uploads/2017/08/Mach-Three-Confirmation-Shot-Tara-Hills-photo-credit-Dave-Landry-768x523.jpg',
@@ -523,7 +523,7 @@
                 stableName: 'Speedy',
                 raceName: 'Cariadus iSpeed',
                 type: 'Pony',
-                gender: 'Galding',
+                gender: 'Gelding',
                 photo: 'photos/ponies/speedy.png',
                 paddock: 'paddocks/3.png',
                 brokenIn: true,
@@ -538,7 +538,7 @@
                 stableName: 'Bootsy',
                 raceName: 'Cariadus Happy Feet',
                 type: 'Pony',
-                gender: 'Galding',
+                gender: 'Gelding',
                 photo: 'https://scontent.fsyd8-1.fna.fbcdn.net/v/t39.30808-6/424569878_4425377054354075_8646900381650633974_n.jpg?stp=cp6_dst-jpg&_nc_cat=102&ccb=1-7&_nc_sid=aa7b47&_nc_ohc=vNQD6HRGE2IQ7kNvgEONHL_&_nc_ht=scontent.fsyd8-1.fna&_nc_gid=AO7uSmvOF0M6mJxEA5KtKsK&oh=00_AYAUj293SNULAxA-IXZst0kEnDqfj7iLYn2XwA9AKFzRNQ&oe=67098F8D',
                 paddock: 'paddocks/3.png',
                 brokenIn: true,
@@ -553,7 +553,7 @@
                 stableName: 'Grubs',
                 raceName: 'Cariadus Grubalugs',
                 type: 'Pony',
-                gender: 'Galding',
+                gender: 'Gelding',
                 photo: 'photos/ponies/grubs.png',
                 paddock: 'paddocks/3.png',
                 brokenIn: true,
@@ -570,7 +570,7 @@
                 sireName: 'Sasha',
                 damName: 'Cariadus Material Girl',
                 type: 'Pony',
-                gender: 'Galding',
+                gender: 'Gelding',
                 photo: 'photos/ponies/charlie.png',
                 paddock: 'paddocks/3.png',
                 sirePhoto: '',
@@ -625,7 +625,7 @@
         const xrayImage = document.getElementById('xray-image');
         const bornOnStud = document.getElementById('born-on-stud');
         const brokenIn = document.getElementById('broken-in');
-        const birthDate = document.getElementById('birth-date');
+        const yob = document.getElementById('birth-date');
         const microchipNumber = document.getElementById('microchip-number');
         const idCard = document.getElementById('id-card');
 
@@ -634,7 +634,7 @@
         const loginButton = document.getElementById('login-button');
         const loginError = document.getElementById('login-error');
 
-        function calculateAge(birthDate) {
+        function calculateAge(yob) {
             const birth = new Date(birthDate);
             const today = new Date();
             let age = today.getFullYear() - birth.getFullYear();
@@ -691,6 +691,7 @@
             birthDate.textContent = `Birth Date: ${horse.birthDate}`;
             microchipNumber.textContent = `Microchip Number: ${horse.microchipNumber}`;
             idCard.innerHTML = `<a href="${horse.idCard}" target="_blank">View ID Card</a>`;
+            forSale.textContent = forSale ? 'For Sale: Yes' : 'For Sale: No':
 
             const damLinkElement = document.getElementById('dam-link');
             if (horse.damMcNamara) {
