@@ -4,23 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>McNamara Park Mobile Web App</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    
     <style>
+        /* CSS Variables for Easy Theme Management */
+        :root {
+            --background-color: #1e1e1e;
+            --primary-color: #ffffff;
+            --secondary-color: #cccccc;
+            --accent-color: #800080; /* Purple accent */
+            --border-color: #444444;
+            --hover-shadow: rgba(128, 0, 128, 0.3);
+            --arrow-stroke: #ffffff;
+        }
+
         /* Global Styles */
-        body, html {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
-            background-color: #333333;
-            color: #dddddd;
-            scroll-behavior: smooth;
+        }
+
+        body, html {
             height: 200vh; /* Total page height: 200vh */
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--primary-color);
+            scroll-behavior: smooth;
         }
 
         /* Launch Pad Styles */
         .launch-pad {
             height: 100vh;
-            background-color: #333333;
+            background-color: var(--background-color);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -33,54 +51,94 @@
         .main-logo img {
             width: 150px;
             height: auto;
+            margin-bottom: 20px;
         }
 
         .offset-logos {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 20px;
+            margin-top: 10px;
             flex-wrap: wrap;
             justify-content: center;
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
         .offset-logos img {
-            width: 75px;
+            width: 60px;
             height: auto;
-            animation: float 3s ease-in-out infinite;
+            transition: transform 0.3s;
+        }
+
+        .offset-logos img:hover {
+            transform: scale(1.1);
         }
 
         /* Animated Arrow Head */
-        .scroll-arrow {
+        .scroll-arrow-container {
             position: absolute;
-            bottom: 20px;
-            width: 30px;
-            height: 30px;
+            bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scroll-arrow {
+            width: 35px;
+            height: 35px;
             cursor: pointer;
             animation: bounce 2s infinite;
         }
 
         /* Arrow Head SVG Styling */
         .scroll-arrow svg {
-            fill: #dddddd;
+            fill: none;
+            stroke: var(--arrow-stroke);
+            stroke-width: 2;
             width: 100%;
             height: 100%;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        .scroll-arrow-pulse {
+            width: 35px;
+            height: 35px;
+            margin-top: -50px;
+            opacity: 0.5;
+            animation: pulse 2s infinite;
+        }
+
+        .scroll-arrow-pulse svg {
+            fill: none;
+            stroke: var(--arrow-stroke);
+            stroke-width: 2;
+            width: 100%;
+            height: 100%;
         }
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translateY(-20px) scale(0.8);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateY(-40px) scale(1.2);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(-60px) scale(1.6);
+                opacity: 0;
+            }
         }
 
         /* Content Section Styles */
         .content-section {
             height: 100vh;
-            background-color: #333333;
+            background-color: var(--background-color);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -91,40 +149,42 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: 1fr 1fr;
-            gap: 15px;
+            gap: 20px;
             width: 100%;
             max-width: 600px;
         }
 
         .content-square {
-            background-color: #555555;
-            border: 3px solid #222222;
-            border-radius: 5px;
+            background-color: #2c2c2c;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 30px 20px;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
         }
 
         .content-square:hover {
-            transform: scale(1.05);
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 20px var(--hover-shadow);
+            background-color: #3a3a3a;
         }
 
         .content-square img {
             width: 80px;
             height: auto;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .content-square p {
-            margin: 0;
+            font-family: 'Montserrat', sans-serif;
             font-size: 18px;
-            color: #dddddd;
+            color: var(--primary-color);
             text-align: center;
+            font-weight: 500;
         }
 
         /* Responsive Adjustments */
@@ -132,20 +192,25 @@
             .content-grid {
                 grid-template-columns: 1fr 1fr;
                 grid-template-rows: 1fr 1fr;
-                gap: 10px;
+                gap: 15px;
             }
 
             .content-square {
-                padding: 15px;
+                padding: 20px 15px;
             }
 
             .content-square img {
-                width: 60px;
-                margin-bottom: 8px;
+                width: 70px;
+                margin-bottom: 10px;
             }
 
             .content-square p {
                 font-size: 16px;
+            }
+
+            /* Raise the arrow for better visibility on smaller screens */
+            .scroll-arrow-container {
+                bottom: 20px;
             }
         }
     </style>
@@ -161,11 +226,19 @@
             <img src="logos/racing.png" alt="Racing">
             <img src="logos/brand.png" alt="Breeding">
         </div>
-        <div class="scroll-arrow" onclick="scrollToContent()">
-            <!-- Arrow Head SVG -->
-            <svg viewBox="0 0 24 24">
-                <path d="M12 16.5l-8-8h16z"/>
-            </svg>
+        <div class="scroll-arrow-container" onclick="scrollToContent()">
+            <!-- Main Arrow Head -->
+            <div class="scroll-arrow">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 16.5l8-8h-16z"/>
+                </svg>
+            </div>
+            <!-- Pulsing Arrow Head -->
+            <div class="scroll-arrow-pulse">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 16.5l8-8h-16z"/>
+                </svg>
+            </div>
         </div>
     </section>
 
