@@ -14,6 +14,7 @@
             background-color: #333333;
             color: #dddddd;
             scroll-behavior: smooth;
+            height: 200vh; /* Total page height: 200vh */
         }
 
         /* Launch Pad Styles */
@@ -40,6 +41,7 @@
             margin-top: 20px;
             flex-wrap: wrap;
             justify-content: center;
+            opacity: 0.8;
         }
 
         .offset-logos img {
@@ -48,13 +50,21 @@
             animation: float 3s ease-in-out infinite;
         }
 
+        /* Animated Arrow Head */
         .scroll-arrow {
             position: absolute;
             bottom: 20px;
-            font-size: 24px;
-            color: #dddddd;
-            animation: bounce 1.5s infinite;
+            width: 30px;
+            height: 30px;
             cursor: pointer;
+            animation: bounce 2s infinite;
+        }
+
+        /* Arrow Head SVG Styling */
+        .scroll-arrow svg {
+            fill: #dddddd;
+            width: 100%;
+            height: 100%;
         }
 
         @keyframes float {
@@ -64,18 +74,26 @@
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-15px); }
         }
 
         /* Content Section Styles */
+        .content-section {
+            height: 100vh;
+            background-color: #333333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
         .content-grid {
-            min-height: 100vh;
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: 1fr 1fr;
-            gap: 10px;
-            padding: 10px;
-            background-color: #333333;
+            gap: 15px;
+            width: 100%;
+            max-width: 600px;
         }
 
         .content-square {
@@ -112,24 +130,22 @@
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .content-grid {
-                grid-template-columns: 1fr;
-                grid-template-rows: repeat(4, 1fr);
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr 1fr;
+                gap: 10px;
             }
 
             .content-square {
-                flex-direction: row;
-                align-items: center;
                 padding: 15px;
             }
 
             .content-square img {
                 width: 60px;
-                margin-right: 15px;
+                margin-bottom: 8px;
             }
 
             .content-square p {
                 font-size: 16px;
-                text-align: left;
             }
         }
     </style>
@@ -146,34 +162,39 @@
             <img src="logos/brand.png" alt="Breeding">
         </div>
         <div class="scroll-arrow" onclick="scrollToContent()">
-            <span>↓</span>
+            <!-- Arrow Head SVG -->
+            <svg viewBox="0 0 24 24">
+                <path d="M12 16.5l-8-8h16z"/>
+            </svg>
         </div>
     </section>
 
     <!-- Content Section -->
-    <section class="content-grid" id="content-grid">
-        <div class="content-square" onclick="window.location.href='/racing'">
-            <img src="logos/racing.png" alt="Racing Program">
-            <p>Racing Program</p>
-        </div>
-        <div class="content-square" onclick="window.location.href='/breeding'">
-            <img src="logos/brand.png" alt="Broodmare Program">
-            <p>Broodmare Program</p>
-        </div>
-        <div class="content-square" onclick="window.location.href='/MHJ'">
-            <img src="logos/cattle.png" alt="Cattle Stud">
-            <p>Cattle Stud</p>
-        </div>
-        <div class="content-square" onclick="window.location.href='/other-services'">
-            <img src="logos/main.png" alt="Other Services">
-            <p>Other Services</p>
+    <section class="content-section">
+        <div class="content-grid" id="content-grid">
+            <div class="content-square" onclick="window.location.href='/racing'">
+                <img src="logos/racing.png" alt="Racing Program">
+                <p>Racing Program</p>
+            </div>
+            <div class="content-square" onclick="window.location.href='/breeding'">
+                <img src="logos/brand.png" alt="Broodmare Program">
+                <p>Broodmare Program</p>
+            </div>
+            <div class="content-square" onclick="window.location.href='/MHJ'">
+                <img src="logos/cattle.png" alt="Cattle Stud">
+                <p>Cattle Stud</p>
+            </div>
+            <div class="content-square" onclick="window.location.href='/other-services'">
+                <img src="logos/main.png" alt="Other Services">
+                <p>Other Services</p>
+            </div>
         </div>
     </section>
 
     <script>
         // Function to scroll to the content section
         function scrollToContent() {
-            const contentSection = document.getElementById('content-grid');
+            const contentSection = document.querySelector('.content-section');
             window.scrollTo({
                 top: contentSection.offsetTop,
                 behavior: 'smooth'
