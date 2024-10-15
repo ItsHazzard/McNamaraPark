@@ -1,127 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>McNamara Park</title>
-    <link rel="icon" href="/Photos/McNamaraPark NO-BG.png" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet">
+    <title>McNamara Park Mobile Web App</title>
     <style>
-        /* Apply the gradient background to the body */
-        body {
-            font-family: 'Imperial Script', cursive;
-            background: linear-gradient(25deg, darkslategrey, black);
+        /* Global Styles */
+        body, html {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            background-color: #333333;
+            color: #dddddd;
+            scroll-behavior: smooth;
         }
 
-        .top-menu {
-            font-family: 'Raleway', Arial, sans-serif;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(0, 0, 0, 0.5);
+        /* Launch Pad Styles */
+        .launch-pad {
+            height: 100vh;
+            background-color: #333333;
             display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            padding: 1rem;
-            z-index: 1000; /* Ensure the menu is above other elements */
-        }
-
-        .top-menu a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 1rem;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: opacity 0.3s;
-            transform: scale(1.1);
-        }
-
-        .top-menu a:hover {
-            color: #333;
-            transform: scale(1.3);
-        }
-
-        header {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 1rem;
-        }
-
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 2rem;
-            font-size: xx-large;
-        }
-
-        /* Center content vertically and horizontally */
-        #photo-header {
             position: relative;
             text-align: center;
-            height: 94.3vh;
-            margin-top: 54px;
-            background: url('Photos/WutiaMountian.jpg') center/cover no-repeat; /* Replace 'background.jpg' with your photo */
         }
 
-        /* Sleek styling for header text */
-        #photo-header h1 {
-            font-size: 8rem;
-            /* Adjust the font size as needed */
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            margin-bottom: 0.5rem;
-            text-align: center;
-            padding: 0 1rem;
-            text-shadow: 2px 10px #000;
+        .main-logo img {
+            width: 150px;
+            height: auto;
         }
 
-        #photo-header p {
-            font-size: 3rem;
-            /* Adjust the font size as needed */
-            color: #fff;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        .offset-logos {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .offset-logos img {
+            width: 75px;
+            height: auto;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .scroll-arrow {
+            position: absolute;
+            bottom: 20px;
+            font-size: 24px;
+            color: #ffd700;
+            animation: bounce 1.5s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* More Info Button Styles */
+        .more-info-btn-container {
             text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            text-shadow: 1px 5px #000;
+            margin: 20px;
+        }
+
+        #more-info-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #ffd700;
+            color: #333;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+        }
+
+        #more-info-btn:hover {
+            background-color: #e6c200;
+        }
+
+        /* Content Section Styles */
+        .content-grid {
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 10px;
+            padding: 10px;
+            background-color: #333333;
+            transition: all 0.5s;
+        }
+
+        .content-square {
+            background-color: #555555;
+            border: 3px solid #222222;
+            border-radius: 3px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .content-square:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .content-square img {
+            width: 80px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .content-square p {
+            margin: 0;
+            font-size: 18px;
+            color: #dddddd;
+            text-align: center;
+        }
+
+        /* Rectangular Layout for More Info */
+        .rectangular-layout {
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .rectangular-layout .content-square {
+            flex-direction: row;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .rectangular-layout .content-square img {
+            width: 100px;
+            margin-right: 20px;
+        }
+
+        .rectangular-layout .content-square p {
+            font-size: 20px;
+            text-align: left;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 600px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, 1fr);
+            }
+
+            .rectangular-layout .content-square {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .rectangular-layout .content-square img {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .rectangular-layout .content-square p {
+                text-align: center;
+            }
         }
     </style>
 </head>
-
 <body>
-    <div class="top-menu">
-        <a href="/index">Home</a>
-        <a href="/Services">Services</a>
-        <a href="/contact">Contact Us</a>
+    <!-- Launch Pad Section -->
+    <section class="launch-pad">
+        <div class="main-logo">
+            <img src="logos/main.png" alt="McNamara Park Logo">
+        </div>
+        <div class="offset-logos">
+            <img src="logos/cattle.png" alt="MHJ (Cattle)">
+            <img src="logos/racing.png" alt="Racing">
+            <img src="logos/brand.png" alt="Breeding">
+        </div>
+        <div class="scroll-arrow" onclick="scrollToContent()">
+            <span>↓</span>
+        </div>
+    </section>
+
+    <!-- More Info Button -->
+    <div class="more-info-btn-container">
+        <button id="more-info-btn">More Info</button>
     </div>
 
-    <div id="photo-header">
-        <h1>McNamara Park</h1>
-        <p>Boutique Equine & Bovine Services. Specializing in Thoroughbreds and Lowlines</p>
-    </div>
+    <!-- Content Section -->
+    <section class="content-grid" id="content-grid">
+        <div class="content-square" onclick="window.location.href='/racing'">
+            <img src="logos/racing.png" alt="Racing Program">
+            <p>Racing Program</p>
+        </div>
+        <div class="content-square" onclick="window.location.href='/breeding'">
+            <img src="logos/brand.png" alt="Broodmare Program">
+            <p>Broodmare Program</p>
+        </div>
+        <div class="content-square" onclick="window.location.href='/MHJ'">
+            <img src="logos/cattle.png" alt="Cattle Stud">
+            <p>Cattle Stud</p>
+        </div>
+        <div class="content-square" onclick="window.location.href='/other-services'">
+            <img src="logos/main.png" alt="Other Services">
+            <p>Other Services</p>
+        </div>
+    </section>
+
     <script>
-        // JavaScript for smooth scrolling
-        document.addEventListener("DOMContentLoaded", function () {
-            const topNavLinks = document.querySelectorAll(".top-menu a");
-
-            topNavLinks.forEach(link => {
-                link.addEventListener("click", (event) => {
-                    event.preventDefault();
-                    const targetSection = document.querySelector(link.getAttribute("href"));
-                    window.scrollTo({
-                        top: targetSection.offsetTop,
-                        behavior: "smooth"
-                    });
-                });
+        // Function to scroll to the content section
+        function scrollToContent() {
+            const contentSection = document.getElementById('content-grid');
+            window.scrollTo({
+                top: contentSection.offsetTop,
+                behavior: 'smooth'
             });
+        }
+
+        // More Info Button Click Event
+        document.getElementById('more-info-btn').addEventListener('click', () => {
+            const contentGrid = document.getElementById('content-grid');
+            contentGrid.classList.toggle('rectangular-layout');
+
+            // Optionally, change the button text based on the layout
+            const moreInfoBtn = document.getElementById('more-info-btn');
+            if (contentGrid.classList.contains('rectangular-layout')) {
+                moreInfoBtn.textContent = 'Less Info';
+            } else {
+                moreInfoBtn.textContent = 'More Info';
+            }
         });
     </script>
 </body>
-
 </html>
