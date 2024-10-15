@@ -26,6 +26,7 @@
             justify-content: center;
             position: relative;
             text-align: center;
+            padding: 20px;
         }
 
         .main-logo img {
@@ -51,7 +52,7 @@
             position: absolute;
             bottom: 20px;
             font-size: 24px;
-            color: #ffd700;
+            color: #dddddd;
             animation: bounce 1.5s infinite;
             cursor: pointer;
         }
@@ -66,43 +67,21 @@
             50% { transform: translateY(-10px); }
         }
 
-        /* More Info Button Styles */
-        .more-info-btn-container {
-            text-align: center;
-            margin: 20px;
-        }
-
-        #more-info-btn {
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            background-color: #ffd700;
-            color: #333;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            border-radius: 5px;
-        }
-
-        #more-info-btn:hover {
-            background-color: #e6c200;
-        }
-
         /* Content Section Styles */
         .content-grid {
-            height: 100vh;
+            min-height: 100vh;
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: 1fr 1fr;
             gap: 10px;
             padding: 10px;
             background-color: #333333;
-            transition: all 0.5s;
         }
 
         .content-square {
             background-color: #555555;
             border: 3px solid #222222;
-            border-radius: 3px;
+            border-radius: 5px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -130,48 +109,27 @@
             text-align: center;
         }
 
-        /* Rectangular Layout for More Info */
-        .rectangular-layout {
-            grid-template-columns: 1fr;
-            grid-template-rows: repeat(4, 1fr);
-            gap: 15px;
-        }
-
-        .rectangular-layout .content-square {
-            flex-direction: row;
-            align-items: center;
-            padding: 10px;
-        }
-
-        .rectangular-layout .content-square img {
-            width: 100px;
-            margin-right: 20px;
-        }
-
-        .rectangular-layout .content-square p {
-            font-size: 20px;
-            text-align: left;
-        }
-
         /* Responsive Adjustments */
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .content-grid {
                 grid-template-columns: 1fr;
                 grid-template-rows: repeat(4, 1fr);
             }
 
-            .rectangular-layout .content-square {
-                flex-direction: column;
+            .content-square {
+                flex-direction: row;
                 align-items: center;
+                padding: 15px;
             }
 
-            .rectangular-layout .content-square img {
-                margin-right: 0;
-                margin-bottom: 10px;
+            .content-square img {
+                width: 60px;
+                margin-right: 15px;
             }
 
-            .rectangular-layout .content-square p {
-                text-align: center;
+            .content-square p {
+                font-size: 16px;
+                text-align: left;
             }
         }
     </style>
@@ -191,11 +149,6 @@
             <span>↓</span>
         </div>
     </section>
-
-    <!-- More Info Button -->
-    <div class="more-info-btn-container">
-        <button id="more-info-btn">More Info</button>
-    </div>
 
     <!-- Content Section -->
     <section class="content-grid" id="content-grid">
@@ -227,18 +180,12 @@
             });
         }
 
-        // More Info Button Click Event
-        document.getElementById('more-info-btn').addEventListener('click', () => {
-            const contentGrid = document.getElementById('content-grid');
-            contentGrid.classList.toggle('rectangular-layout');
-
-            // Optionally, change the button text based on the layout
-            const moreInfoBtn = document.getElementById('more-info-btn');
-            if (contentGrid.classList.contains('rectangular-layout')) {
-                moreInfoBtn.textContent = 'Less Info';
-            } else {
-                moreInfoBtn.textContent = 'More Info';
-            }
+        // Optional: Adjust scroll behavior for iOS Safari
+        document.addEventListener('DOMContentLoaded', () => {
+            // Preventing iOS Safari from snapping to top on load
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+            }, 1);
         });
     </script>
 </body>
