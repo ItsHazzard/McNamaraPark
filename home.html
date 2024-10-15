@@ -78,24 +78,20 @@
             position: absolute;
             bottom: 30px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             pointer-events: auto;
         }
 
-        .scroll-arrow, .scroll-arrow-pulse {
+        .scroll-arrow {
             width: 35px;
             height: 35px;
             cursor: pointer;
-            position: absolute;
-            top: 0;
-            left: 0;
-            animation: none;
+            animation: moveDown 2s infinite;
         }
 
         /* Arrow Head SVG Styling */
-        .scroll-arrow svg, .scroll-arrow-pulse svg {
+        .scroll-arrow svg {
             fill: none;
             stroke: var(--arrow-stroke);
             stroke-width: 2;
@@ -103,32 +99,15 @@
             height: 100%;
         }
 
-        /* Main Arrow Animation */
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* Pulse Arrow Animation */
-        @keyframes pulse {
+        @keyframes moveDown {
             0% {
-                transform: translateY(-40px) scale(0.8);
-                opacity: 0.5;
+                transform: translateY(0) scale(1);
+                opacity: 1;
             }
             100% {
-                transform: translateY(0px) scale(1.6);
+                transform: translateY(20px) scale(0.8);
                 opacity: 0;
             }
-        }
-
-        /* Apply Animations */
-        .scroll-arrow {
-            animation: bounce 2s infinite;
-        }
-
-        .scroll-arrow-pulse {
-            animation: pulse 2s infinite;
-            animation-delay: 1s;
         }
 
         /* Content Section Styles */
@@ -223,14 +202,7 @@
             <img src="logos/brand.png" alt="Breeding">
         </div>
         <div class="scroll-arrow-container" onclick="scrollToContent()">
-            <!-- Main Arrow Head -->
             <div class="scroll-arrow">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 16.5l8-8h-16z"/>
-                </svg>
-            </div>
-            <!-- Pulsing Arrow Head -->
-            <div class="scroll-arrow-pulse">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 16.5l8-8h-16z"/>
                 </svg>
